@@ -1,0 +1,83 @@
+buildscript {
+	repositories {
+		mavenCentral()
+        maven {
+            name = "github"
+            url = "https://github.com/juanmuscaria/maven/raw/master"
+        }
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:[1.2-1.4.6-SNAPSHOT,)'
+	}
+}
+
+repositories {
+	flatDir {
+		dirs 'deps'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'forge'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+version = mod_version
+group = mod_group
+archivesBaseName = mod_archives_name
+
+minecraft {
+	version = "1.7.10-10.13.4.1614-1.7.10"
+	runDir = "eclipse"
+	replace "@VERSION@", project.version
+}
+
+
+dependencies {
+	compile name: '1.7.10_AM2-1.4.0.009-deobf'
+	compile name: 'BiomesOPlenty-1.7.10-2.1.0.2308-universal-deobf'
+	compile name: 'ChromatiCraft+1.7.10+V31b-deobf'
+	compile name: 'Enhanced-Biomes-Mod-1.7.10-deobf'
+	compile name: 'extrabiomesxl_1.7.10-3.16.4-deobf'
+	compile name: 'growthcraft-1.7.10-2.7.2-complete-deobf'
+	compile name: 'Highlands-1.7.2-v-2.2.3-deobf'
+	compile name: 'mystcraft-1.7.10-0.12.3.04-deobf'
+	compile name: 'Thaumcraft-1.7.10-4.2.3.5-deobf'
+	compile name: 'UndergroundBiomesConstructs-1.7.10-0.8-beta49-deobf'
+	compile name: 'Vampirism-1.7.10-0.7.9-deobf'
+}
+
+processResources {
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version,
+		'mod_id': mod_id,
+		'mod_name': mod_name,
+		'mod_author': mod_author,
+		'mod_description': mod_description,
+		'mc_version': mc_version,
+		'mod_version': mod_version,
+		'mod_icon': mod_icon
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+task devJar(type: Jar) {
+	classifier = 'dev'
+	from sourceSets.main.output
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives devJar
+	archives sourcesJar
+}

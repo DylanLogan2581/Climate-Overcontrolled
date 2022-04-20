@@ -3,7 +3,7 @@ package climateControl.biomeSettings;
 
 import climateControl.api.BiomePackage;
 import climateControl.api.BiomeSettings;
-import growthcraft.bamboo.BiomeGenBamboo;
+import growthcraft.bamboo.common.world.BiomeGenBamboo;
 
 /**
  *
